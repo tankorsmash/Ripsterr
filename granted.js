@@ -1,41 +1,26 @@
-find_mirror_comments = function(){
-        var mirror_roots = [];
-        $.each(root_comments, function(i, comment_el) {
-            text = $($(".entry .usertext", comment_el)[0]).text();
-            contains_mirror = text.search(/mirror/) != -1;
-            if (contains_mirror) {
-                contains_anchor = $($(".entry .usertext", comment_el)[0]).html().search(/<a/) != -1;
-                if (contains_anchor) {
-                    mirror_roots.push($(comment_el));
-                };
-            };
-        });
-
-        return mirror_roots;
-};
-
+$.urlParam = function(querystr, name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(querystr);
+    if (results==null){
+       return null;
+    }
+    else{
+        return decodeURI(results[1]) || 0;
+    }
+}
 $(function(){
-    page_id = $("link[rel=shorturl]").attr('href').replace(/.*\//, "");
+    var obj = $("#SongsterrPlayer > param[name=flashvars]");
+    if (obj.length) {
+        raw_qs = obj.attr("value");
+        revision_id = $.urlParam(raw_qs, "revision");
 
-    comment_container = $(".sitetable.nestedlisting");
-    root_comments = $("#siteTable_t3_"+page_id+" > .comment");
+        GET_XML_URL = "http://www.songsterr.com/a/ra/player/songrevision/"+revision_id+".xml"
+        $.get(GET_XML_URL, function(resp){
+            tab_xml = resp;
+            tab_obj = $(tab_xml);
+            tab_url = $("guitarProTab attachmentUrl ", tab_xml).text();
+            console.log("Ripsterr found the url "+tab_url);
 
-    mirror_roots = find_mirror_comments();
-
-    if (mirror_roots.length != 0) {
-        easymirror_el = $("<div id='easymirror'><span class='entry'></span></div>").addClass("thing noncollasped comment");
-        tagline = $("<p class='tagline'>")
-        .text("EasyMirror")
-        .prependTo(easymirror_el)
-        .attr("onclick", "return togglecomment(this)"); //use RES toggle 
-        expander = $("<span class='expand'>[-]</span>").prependTo(tagline);
-
-        $(".entry", easymirror_el).data("alreadyDetected", true); //get RES to ignore this element tree
-
-        $.each(mirror_roots, function(i, el){
-            $("> .entry .usertext", el).clone().appendTo($(".entry", easymirror_el));
+            $("<a class='button'>Download tab!</a>").attr("href", tab_url).appendTo($(".headingWrapper .inlineHeading"));
         });
-
-        easymirror_el.prependTo(comment_container);
     };
 });
