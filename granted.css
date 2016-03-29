@@ -1,0 +1,13 @@
+.Fast {
+    background-color: rgba(0, 128, 0, 0.27);
+    border-radius: 2px;
+    box-shadow: 1px 1px 1px
+}
+.Average {
+    background-color: rgba(236, 220, 33, 0.69);
+}
+
+.Slow {
+    background-color: rgba(255, 11, 11, 0.78);
+}
+
