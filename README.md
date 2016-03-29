@@ -1,5 +1,7 @@
-EasyMirror
+Ripsterr
 ===========
 
-A Chrome Extension that finds toplevel comments with 'mirror' and an anchor tag, in order to find the mirror faster
+A Chrome Extension that finds the embedded Guitar Pro file and puts a direct download link instead
+
+![Screenshot](https://raw.githubusercontent.com/tankorsmash/Ripsterr/master/screen640.png)
 
