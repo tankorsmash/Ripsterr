@@ -1,3 +1,3 @@
-
+//i cant remember how to get the page data in here, something about messages...
 $(function () {
 });
